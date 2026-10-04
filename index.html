@@ -35,22 +35,12 @@
             scrollbar-width: none;
         }
 
-        .bg-meesho-purple {
-            background-color: #9f2089;
-        }
-        .bg-meesho-purple-dark {
-            background-color: #80146e;
-        }
-        .text-meesho-purple {
-            color: #9f2089;
-        }
-        .border-meesho-purple {
-            border-color: #9f2089;
-        }
+        .bg-meesho-purple { background-color: #9f2089; }
+        .bg-meesho-purple-dark { background-color: #80146e; }
+        .text-meesho-purple { color: #9f2089; }
+        .border-meesho-purple { border-color: #9f2089; }
 
-        .star-badge {
-            background-color: #038d63;
-        }
+        .star-badge { background-color: #038d63; }
 
         .page-view {
             display: none;
@@ -62,31 +52,40 @@
             display: block;
         }
 
-        /* Image Placeholder Fallback Styling */
+        /* Image Placeholder Fallback Container */
         .img-placeholder-box {
             background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-            border: 1px dashed #cbd5e1;
-            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
+            color: #4b5563;
             font-weight: 600;
-            color: #475569;
-            text-align: center;
-            padding: 4px;
-            box-sizing: border-box;
-            position: relative;
+            font-size: 12px;
+            border-radius: 6px;
+            user-select: none;
             overflow: hidden;
+            position: relative;
         }
 
-        /* Style broken image tags to render cleanly with text */
-        img.img-fallback {
-            object-fit: contain;
+        .img-placeholder-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Fallback text when image fails or hasn't loaded */
+        .fallback-text {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e5e7eb;
+            color: #374151;
+            font-weight: 600;
             font-size: 11px;
-            color: #475569;
             text-align: center;
-            background-color: #f8fafc;
+            padding: 2px;
         }
 
         #toast {
@@ -105,7 +104,7 @@
     <!-- Toast Notification -->
     <div id="toast" class="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-gray-900 text-white text-xs px-4 py-2.5 rounded-full shadow-lg pointer-events-none flex items-center space-x-2">
         <i class="fa-solid fa-circle-check text-emerald-400"></i>
-        <span id="toast-message">Notification message</span>
+        <span id="toast-message">Notification</span>
     </div>
 
     <div class="mobile-shell">
@@ -115,19 +114,21 @@
         <!-- ================================================================= -->
         <div id="step-product" class="page-view active">
             
-            <!-- Top Header with meesho.png image placeholder -->
-            <header class="sticky top-0 bg-white z-40 border-b border-gray-100 px-4 py-2.5 flex items-center justify-between">
+            <!-- Top Header -->
+            <header class="sticky top-0 bg-white z-40 border-b border-gray-100 px-4 py-3 flex items-center justify-between">
                 <div class="flex items-center space-x-3">
-                    <div class="w-28 h-8 flex items-center justify-start overflow-hidden">
-                        <img src="meesho.png" alt="meesho.png" onerror="handleImgError(this)" class="img-fallback h-full w-auto object-contain font-semibold text-meesho-purple">
+                    <!-- meesho.png Logo Placeholder -->
+                    <div class="img-placeholder-box w-24 h-7 border border-gray-200">
+                        <img src="meesho.png" alt="meesho.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="fallback-text">meesho.png</div>
                     </div>
                 </div>
                 <div class="flex items-center space-x-5 text-gray-700 text-lg">
                     <i class="fa-solid fa-magnifying-glass cursor-pointer"></i>
                     <i class="fa-regular fa-heart cursor-pointer"></i>
-                    <!-- Cart icon without count badge -->
-                    <div class="cursor-pointer" onclick="showToast('Cart is currently empty')">
-                        <i class="fa-solid fa-cart-shopping text-gray-700"></i>
+                    <!-- Shopping cart icon without any count badge -->
+                    <div class="cursor-pointer" onclick="showToast('Cart is empty')">
+                        <i class="fa-solid fa-cart-shopping"></i>
                     </div>
                 </div>
             </header>
@@ -139,46 +140,71 @@
                 <i class="fa-solid fa-angles-right text-indigo-400 text-xs"></i>
             </div>
 
-            <!-- Product Carousel -->
+            <!-- Swipeable Product Gallery Carousel -->
             <div class="relative w-full bg-gray-50 border-b border-gray-100">
-                <div id="product-carousel" class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar w-full h-[360px]">
-                    <div class="snap-center shrink-0 w-full h-full p-2 flex items-center justify-center">
-                        <img src="p1.png" alt="p1.png" onerror="handleImgError(this)" class="img-fallback w-full h-full border border-gray-200 rounded-lg">
+                <div id="product-carousel" onscroll="handleCarouselScroll()" class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar w-full h-[360px] scroll-smooth">
+                    <!-- p1.png -->
+                    <div class="snap-center shrink-0 w-full h-full p-2">
+                        <div class="img-placeholder-box w-full h-full border border-gray-200 rounded-lg">
+                            <img src="p1.png" alt="p1.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                            <div class="fallback-text text-sm">p1.png</div>
+                        </div>
                     </div>
-                    <div class="snap-center shrink-0 w-full h-full p-2 flex items-center justify-center">
-                        <img src="p2.png" alt="p2.png" onerror="handleImgError(this)" class="img-fallback w-full h-full border border-gray-200 rounded-lg">
+                    <!-- p2.png -->
+                    <div class="snap-center shrink-0 w-full h-full p-2">
+                        <div class="img-placeholder-box w-full h-full border border-gray-200 rounded-lg">
+                            <img src="p2.png" alt="p2.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                            <div class="fallback-text text-sm">p2.png</div>
+                        </div>
                     </div>
-                    <div class="snap-center shrink-0 w-full h-full p-2 flex items-center justify-center">
-                        <img src="p3.png" alt="p3.png" onerror="handleImgError(this)" class="img-fallback w-full h-full border border-gray-200 rounded-lg">
+                    <!-- p3.png -->
+                    <div class="snap-center shrink-0 w-full h-full p-2">
+                        <div class="img-placeholder-box w-full h-full border border-gray-200 rounded-lg">
+                            <img src="p3.png" alt="p3.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                            <div class="fallback-text text-sm">p3.png</div>
+                        </div>
                     </div>
-                    <div class="snap-center shrink-0 w-full h-full p-2 flex items-center justify-center">
-                        <img src="p4.png" alt="p4.png" onerror="handleImgError(this)" class="img-fallback w-full h-full border border-gray-200 rounded-lg">
+                    <!-- p4.png -->
+                    <div class="snap-center shrink-0 w-full h-full p-2">
+                        <div class="img-placeholder-box w-full h-full border border-gray-200 rounded-lg">
+                            <img src="p4.png" alt="p4.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                            <div class="fallback-text text-sm">p4.png</div>
+                        </div>
                     </div>
-                    <div class="snap-center shrink-0 w-full h-full p-2 flex items-center justify-center">
-                        <img src="p5.png" alt="p5.png" onerror="handleImgError(this)" class="img-fallback w-full h-full border border-gray-200 rounded-lg">
+                    <!-- p5.png -->
+                    <div class="snap-center shrink-0 w-full h-full p-2">
+                        <div class="img-placeholder-box w-full h-full border border-gray-200 rounded-lg">
+                            <img src="p5.png" alt="p5.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                            <div class="fallback-text text-sm">p5.png</div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="absolute bottom-3 left-3 bg-white/80 backdrop-blur-sm px-2 py-0.5 rounded text-[11px] text-gray-600 font-mono border border-gray-200">
+                <!-- Product Code Tag -->
+                <div class="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm px-2 py-0.5 rounded text-[11px] text-gray-600 font-mono shadow-sm">
                     s-792925561
                 </div>
 
-                <button class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-sm border border-gray-300 rounded-full px-3 py-1.5 text-xs font-medium text-gray-700 shadow-sm flex items-center gap-1.5">
+                <!-- More Like This Pill -->
+                <button class="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm border border-gray-300 rounded-full px-3 py-1.5 text-xs font-medium text-gray-700 shadow-sm flex items-center gap-1.5">
                     <i class="fa-regular fa-clone text-xs"></i>
                     <span>More Like This</span>
                 </button>
 
-                <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1.5">
-                    <span class="w-3 h-1 bg-meesho-purple rounded-full"></span>
-                    <span class="w-1.5 h-1 bg-gray-300 rounded-full"></span>
-                    <span class="w-1.5 h-1 bg-gray-300 rounded-full"></span>
+                <!-- Dynamic Swipe Dots -->
+                <div id="carousel-dots" class="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1.5">
+                    <span class="dot w-3 h-1 bg-meesho-purple rounded-full transition-all duration-200"></span>
+                    <span class="dot w-1.5 h-1 bg-gray-300 rounded-full transition-all duration-200"></span>
+                    <span class="dot w-1.5 h-1 bg-gray-300 rounded-full transition-all duration-200"></span>
+                    <span class="dot w-1.5 h-1 bg-gray-300 rounded-full transition-all duration-200"></span>
+                    <span class="dot w-1.5 h-1 bg-gray-300 rounded-full transition-all duration-200"></span>
                 </div>
             </div>
 
-            <!-- Product Title and Pricing -->
+            <!-- Product Info Box -->
             <div class="p-4 bg-white border-b border-gray-200">
                 <div class="flex justify-between items-start">
-                    <h1 class="text-gray-800 text-sm font-semibold leading-snug flex-1 pr-3">
+                    <h1 class="text-gray-700 text-sm font-normal leading-snug flex-1 pr-3">
                         K12 Portable Bluetooth Speaker with Wireless Connectivity@2
                     </h1>
                     <div class="flex items-center space-x-3 text-gray-500 pt-0.5">
@@ -193,10 +219,11 @@
                     </div>
                 </div>
 
+                <!-- Pricing Section -->
                 <div class="mt-2 flex items-baseline space-x-2">
                     <span class="text-2xl font-bold text-gray-900">₹99</span>
-                    <span class="text-xs text-gray-400 line-through">₹487</span>
-                    <span class="text-xs font-semibold text-emerald-600">80% off</span>
+                    <span class="text-xs text-gray-400 line-through">₹200</span>
+                    <span class="text-xs font-semibold text-emerald-600">50% off</span>
                     <i class="fa-solid fa-circle-info text-gray-400 text-xs cursor-pointer"></i>
                 </div>
 
@@ -215,23 +242,23 @@
                         <span>3.9</span>
                         <i class="fa-solid fa-star text-[9px]"></i>
                     </div>
-                    <span class="text-xs text-gray-500">(542 ratings)</span>
+                    <span class="text-xs text-gray-500">(542)</span>
                 </div>
             </div>
 
-            <!-- Features -->
+            <!-- Features Bar -->
             <div class="bg-purple-50/40 p-3 grid grid-cols-2 gap-2 text-center border-b border-gray-200">
                 <div class="flex flex-col items-center justify-center space-y-1">
                     <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-meesho-purple">
                         <i class="fa-solid fa-rotate-left text-xs"></i>
                     </div>
-                    <span class="text-[11px] font-semibold text-gray-700 leading-tight">7 Days Easy Return</span>
+                    <span class="text-[11px] font-semibold text-gray-700 leading-tight">7 Days<br>Easy Return</span>
                 </div>
                 <div class="flex flex-col items-center justify-center space-y-1">
                     <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-meesho-purple">
                         <i class="fa-solid fa-tag text-xs"></i>
                     </div>
-                    <span class="text-[11px] font-semibold text-gray-700 leading-tight">Lowest Price</span>
+                    <span class="text-[11px] font-semibold text-gray-700 leading-tight">Lowest<br>Price Guaranteed</span>
                 </div>
             </div>
 
@@ -247,6 +274,7 @@
             <div class="p-4 bg-white border-b border-gray-200">
                 <h3 class="text-sm font-bold text-gray-800 mb-3">Customer Ratings & Reviews</h3>
 
+                <!-- Summary Breakdown -->
                 <div class="flex items-center space-x-4 mb-4">
                     <div class="text-center pr-2">
                         <div class="text-3xl font-extrabold text-emerald-600 flex items-center justify-center gap-1">
@@ -295,24 +323,36 @@
                     </div>
                 </div>
 
-                <!-- Customer Photos Thumbnails -->
+                <!-- Customer Photos Grid using r1.png - r5.png -->
                 <div class="mb-4">
                     <p class="text-xs font-semibold text-gray-700 mb-2">Customer photos and videos</p>
                     <div class="grid grid-cols-5 gap-1.5">
-                        <img src="p1.png" alt="p1.png" onerror="handleImgError(this)" class="img-fallback w-full h-16 border border-gray-200 rounded">
-                        <img src="p2.png" alt="p2.png" onerror="handleImgError(this)" class="img-fallback w-full h-16 border border-gray-200 rounded">
-                        <img src="p3.png" alt="p3.png" onerror="handleImgError(this)" class="img-fallback w-full h-16 border border-gray-200 rounded">
-                        <img src="p4.png" alt="p4.png" onerror="handleImgError(this)" class="img-fallback w-full h-16 border border-gray-200 rounded">
-                        <div class="bg-gray-800 text-white rounded flex items-center justify-center font-bold text-xs h-16">
+                        <div class="img-placeholder-box h-16">
+                            <img src="r1.png" alt="r1.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                            <div class="fallback-text">r1.png</div>
+                        </div>
+                        <div class="img-placeholder-box h-16">
+                            <img src="r2.png" alt="r2.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                            <div class="fallback-text">r2.png</div>
+                        </div>
+                        <div class="img-placeholder-box h-16">
+                            <img src="r3.png" alt="r3.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                            <div class="fallback-text">r3.png</div>
+                        </div>
+                        <div class="img-placeholder-box h-16">
+                            <img src="r4.png" alt="r4.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                            <div class="fallback-text">r4.png</div>
+                        </div>
+                        <div class="img-placeholder-box h-16 bg-gray-800 text-white flex items-center justify-center font-bold text-xs">
                             +65
                         </div>
                     </div>
                 </div>
 
-                <!-- Reviews Stream -->
+                <!-- Individual Reviews with r1.png to r10.png -->
                 <div class="space-y-4 pt-2 border-t border-gray-100">
                     
-                    <!-- Review 1 -->
+                    <!-- Review Item 1 -->
                     <div class="border-b border-gray-100 pb-3">
                         <p class="text-xs font-semibold text-gray-800">Meesho User</p>
                         <div class="flex items-center space-x-2 mt-1">
@@ -324,15 +364,34 @@
                         </div>
                         <p class="text-xs text-gray-700 mt-1.5">It is small but ok Chota packet bara dhamaka💥💥</p>
                         <div class="flex space-x-1.5 mt-2 overflow-x-auto no-scrollbar">
-                            <img src="r1.png" alt="r1.png" onerror="handleImgError(this)" class="img-fallback w-14 h-14 shrink-0 border border-gray-200 rounded">
-                            <img src="r2.png" alt="r2.png" onerror="handleImgError(this)" class="img-fallback w-14 h-14 shrink-0 border border-gray-200 rounded">
-                            <img src="r3.png" alt="r3.png" onerror="handleImgError(this)" class="img-fallback w-14 h-14 shrink-0 border border-gray-200 rounded">
-                            <img src="r4.png" alt="r4.png" onerror="handleImgError(this)" class="img-fallback w-14 h-14 shrink-0 border border-gray-200 rounded">
-                            <img src="r5.png" alt="r5.png" onerror="handleImgError(this)" class="img-fallback w-14 h-14 shrink-0 border border-gray-200 rounded">
+                            <div class="img-placeholder-box w-14 h-14 shrink-0">
+                                <img src="r1.png" alt="r1.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                                <div class="fallback-text">r1.png</div>
+                            </div>
+                            <div class="img-placeholder-box w-14 h-14 shrink-0">
+                                <img src="r2.png" alt="r2.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                                <div class="fallback-text">r2.png</div>
+                            </div>
+                            <div class="img-placeholder-box w-14 h-14 shrink-0">
+                                <img src="r3.png" alt="r3.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                                <div class="fallback-text">r3.png</div>
+                            </div>
+                            <div class="img-placeholder-box w-14 h-14 shrink-0">
+                                <img src="r4.png" alt="r4.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                                <div class="fallback-text">r4.png</div>
+                            </div>
+                            <div class="img-placeholder-box w-14 h-14 shrink-0">
+                                <img src="r5.png" alt="r5.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                                <div class="fallback-text">r5.png</div>
+                            </div>
                         </div>
+                        <button onclick="toggleHelpful(this)" class="mt-2 flex items-center text-gray-500 text-xs space-x-1 hover:text-meesho-purple">
+                            <i class="fa-regular fa-thumbs-up"></i>
+                            <span>Helpful (35)</span>
+                        </button>
                     </div>
 
-                    <!-- Review 2 -->
+                    <!-- Review Item 2 -->
                     <div class="border-b border-gray-100 pb-3">
                         <p class="text-xs font-semibold text-gray-800">Irfan Shaikh</p>
                         <div class="flex items-center space-x-2 mt-1">
@@ -344,13 +403,26 @@
                         </div>
                         <p class="text-xs text-gray-700 mt-1.5">Bhot mast hai bache bhot happy ho Gaye thank you meesho 🎉🥳</p>
                         <div class="flex space-x-1.5 mt-2">
-                            <img src="r6.png" alt="r6.png" onerror="handleImgError(this)" class="img-fallback w-14 h-14 shrink-0 border border-gray-200 rounded">
-                            <img src="r7.png" alt="r7.png" onerror="handleImgError(this)" class="img-fallback w-14 h-14 shrink-0 border border-gray-200 rounded">
-                            <img src="r8.png" alt="r8.png" onerror="handleImgError(this)" class="img-fallback w-14 h-14 shrink-0 border border-gray-200 rounded">
+                            <div class="img-placeholder-box w-14 h-14 shrink-0">
+                                <img src="r6.png" alt="r6.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                                <div class="fallback-text">r6.png</div>
+                            </div>
+                            <div class="img-placeholder-box w-14 h-14 shrink-0">
+                                <img src="r7.png" alt="r7.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                                <div class="fallback-text">r7.png</div>
+                            </div>
+                            <div class="img-placeholder-box w-14 h-14 shrink-0">
+                                <img src="r8.png" alt="r8.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                                <div class="fallback-text">r8.png</div>
+                            </div>
                         </div>
+                        <button onclick="toggleHelpful(this)" class="mt-2 flex items-center text-gray-500 text-xs space-x-1 hover:text-meesho-purple">
+                            <i class="fa-regular fa-thumbs-up"></i>
+                            <span>Helpful (24)</span>
+                        </button>
                     </div>
 
-                    <!-- Review 3 -->
+                    <!-- Review Item 3 -->
                     <div>
                         <p class="text-xs font-semibold text-gray-800">Mohd Aslam</p>
                         <div class="flex items-center space-x-2 mt-1">
@@ -360,23 +432,28 @@
                             <span class="text-xs font-semibold text-gray-700">Excellent</span>
                             <span class="text-[10px] text-gray-400">• Posted on 05 Aug, 2026</span>
                         </div>
-                        <p class="text-xs text-gray-700 mt-1.5">Bahut achha hai price ke hisab se product bahut achcha hai...</p>
+                        <p class="text-xs text-gray-700 mt-1.5">Bahut achha hai bas thoda sa chalu karne mein vah hua lekin achcha hai price ke hisab se product bahut achcha...</p>
                         <div class="flex space-x-1.5 mt-2">
-                            <img src="r9.png" alt="r9.png" onerror="handleImgError(this)" class="img-fallback w-14 h-14 shrink-0 border border-gray-200 rounded">
-                            <img src="r10.png" alt="r10.png" onerror="handleImgError(this)" class="img-fallback w-14 h-14 shrink-0 border border-gray-200 rounded">
+                            <div class="img-placeholder-box w-14 h-14 shrink-0">
+                                <img src="r9.png" alt="r9.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                                <div class="fallback-text">r9.png</div>
+                            </div>
+                            <div class="img-placeholder-box w-14 h-14 shrink-0">
+                                <img src="r10.png" alt="r10.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                                <div class="fallback-text">r10.png</div>
+                            </div>
                         </div>
                     </div>
 
                 </div>
             </div>
 
-            <!-- Bottom Sticky Bar -->
+            <!-- Sticky Bottom Actions -->
             <div class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white border-t border-gray-200 p-2.5 z-50 flex items-center space-x-2">
                 <button onclick="showToast('Added to Cart!')" class="w-1/2 bg-white border-2 border-meesho-purple text-meesho-purple py-2.5 rounded-md font-semibold text-xs flex items-center justify-center space-x-1.5 active:bg-pink-50 transition-colors">
                     <i class="fa-solid fa-cart-plus text-sm"></i>
                     <span>Add to Cart</span>
                 </button>
-
                 <button onclick="goToStep(2)" class="w-1/2 bg-meesho-purple hover:bg-meesho-purple-dark text-white py-2.5 rounded-md font-semibold text-xs flex items-center justify-center space-x-1.5 shadow-md active:scale-[0.98] transition-transform">
                     <i class="fa-solid fa-angles-right text-xs"></i>
                     <span>Buy at ₹99</span>
@@ -403,7 +480,7 @@
             <div class="p-4">
                 <div class="bg-purple-50 border border-purple-100 rounded-lg p-3 mb-4 flex items-center space-x-3">
                     <i class="fa-solid fa-truck-fast text-meesho-purple text-xl"></i>
-                    <p class="text-xs text-purple-900 font-medium">Enter your address details to complete your order at ₹99.</p>
+                    <p class="text-xs text-purple-900 font-medium">Enter address details to continue order at ₹99.</p>
                 </div>
 
                 <form id="addressForm" onsubmit="handleAddressSubmit(event)" class="space-y-4">
@@ -476,26 +553,26 @@
 
             <div class="bg-emerald-50 border-y border-emerald-100 px-4 py-2 flex items-center justify-between">
                 <div class="flex items-center space-x-1.5">
-                    <span class="text-emerald-700 font-extrabold text-sm">₹388 OFF</span>
+                    <span class="text-emerald-700 font-extrabold text-sm">₹76 OFF</span>
                     <span class="text-xs text-emerald-800">on this order</span>
                 </div>
                 <div class="bg-amber-100 border border-amber-200 rounded-full px-2.5 py-0.5 flex items-center space-x-1">
                     <i class="fa-solid fa-bomb text-amber-800 text-xs"></i>
-                    <span id="countdown" class="text-amber-800 text-xs font-mono font-bold">00h : 00m : 34s</span>
+                    <span id="countdown" class="text-amber-800 text-xs font-mono font-bold">00h : 00m : 41s</span>
                 </div>
             </div>
 
             <div class="p-4 space-y-4">
 
-                <!-- Online Payment Container -->
+                <!-- Pay Online Container with QR Code and App Icon Placeholders -->
                 <div class="border-2 border-meesho-purple rounded-xl p-4 bg-white relative shadow-sm">
                     <div class="flex justify-between items-start mb-3">
                         <div>
                             <div class="flex items-center space-x-2">
-                                <span class="text-xs text-gray-400 line-through">₹487</span>
+                                <span class="text-xs text-gray-400 line-through">₹175</span>
                                 <span class="text-xl font-bold text-emerald-600">₹99</span>
                             </div>
-                            <span class="inline-block bg-emerald-100 text-emerald-800 text-[10px] px-1.5 py-0.5 rounded font-semibold mt-0.5">Save ₹388</span>
+                            <span class="inline-block bg-emerald-100 text-emerald-800 text-[10px] px-1.5 py-0.5 rounded font-semibold mt-0.5">Save ₹76</span>
                         </div>
                         <div class="flex items-center space-x-2">
                             <span class="font-bold text-gray-800 text-sm">Pay Online</span>
@@ -505,27 +582,37 @@
                         </div>
                     </div>
 
-                    <!-- QR Scanner Image Placeholder (qr.png) -->
+                    <!-- Scanner Box with qr.png Placeholder -->
                     <div class="flex flex-col items-center justify-center p-3 bg-gray-50 border border-dashed border-gray-300 rounded-lg">
-                        <p class="text-xs text-gray-600 mb-2 font-semibold">Scan QR code to pay</p>
+                        <p class="text-xs text-gray-600 mb-2 font-semibold">Scan QR to pay directly</p>
                         
                         <div class="w-48 h-48 bg-white p-2 rounded-lg border border-gray-200 shadow-sm flex items-center justify-center">
-                            <img src="qr.png" alt="qr.png" onerror="handleImgError(this)" class="img-fallback w-full h-full border border-gray-200 rounded">
+                            <div class="img-placeholder-box w-full h-full border border-gray-100">
+                                <img src="qr.png" alt="qr.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                                <div class="fallback-text flex-col">
+                                    <i class="fa-solid fa-qrcode text-4xl mb-1 text-gray-500"></i>
+                                    <span>qr.png</span>
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- Payment Apps Image Placeholders (gpay.png, phonepe.png, paytm.png, upi.png) -->
+                        <!-- App Icon Placeholders below QR -->
                         <div class="mt-4 pt-3 border-t border-gray-200 w-full grid grid-cols-4 gap-2 px-1">
-                            <div class="flex justify-center items-center h-10">
-                                <img src="gpay.png" alt="gpay.png" onerror="handleImgError(this)" class="img-fallback w-full h-full border border-gray-200 rounded">
+                            <div class="img-placeholder-box h-8 border border-gray-200">
+                                <img src="phonepe.png" alt="phonepe.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                                <div class="fallback-text">phonepe.png</div>
                             </div>
-                            <div class="flex justify-center items-center h-10">
-                                <img src="phonepe.png" alt="phonepe.png" onerror="handleImgError(this)" class="img-fallback w-full h-full border border-gray-200 rounded">
+                            <div class="img-placeholder-box h-8 border border-gray-200">
+                                <img src="paytm.png" alt="paytm.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                                <div class="fallback-text">paytm.png</div>
                             </div>
-                            <div class="flex justify-center items-center h-10">
-                                <img src="paytm.png" alt="paytm.png" onerror="handleImgError(this)" class="img-fallback w-full h-full border border-gray-200 rounded">
+                            <div class="img-placeholder-box h-8 border border-gray-200">
+                                <img src="gpay.png" alt="gpay.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                                <div class="fallback-text">gpay.png</div>
                             </div>
-                            <div class="flex justify-center items-center h-10">
-                                <img src="upi.png" alt="upi.png" onerror="handleImgError(this)" class="img-fallback w-full h-full border border-gray-200 rounded">
+                            <div class="img-placeholder-box h-8 border border-gray-200">
+                                <img src="upi.png" alt="upi.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                                <div class="fallback-text">upi.png</div>
                             </div>
                         </div>
                     </div>
@@ -536,21 +623,26 @@
                     </div>
                 </div>
 
-                <!-- Price Breakdown Details -->
+                <div class="border border-gray-200 rounded-lg p-3 bg-white flex justify-between items-center text-xs font-semibold text-gray-700 cursor-pointer">
+                    <span>Reselling the order?</span>
+                    <i class="fa-solid fa-chevron-right text-gray-400"></i>
+                </div>
+
+                <!-- Price Details Breakdown -->
                 <div class="border border-gray-200 rounded-lg p-4 bg-white space-y-3">
-                    <div class="flex justify-between items-center text-sm font-bold text-gray-800">
+                    <div class="flex justify-between items-center text-sm font-bold text-gray-800 cursor-pointer" onclick="togglePriceDetails()">
                         <span>Price Details (1 Item)</span>
-                        <i class="fa-solid fa-chevron-up text-xs text-gray-500"></i>
+                        <i id="price-arrow" class="fa-solid fa-chevron-up text-xs text-gray-500"></i>
                     </div>
 
-                    <div class="space-y-2 text-xs text-gray-600 pt-2 border-t border-gray-100">
+                    <div id="price-breakdown" class="space-y-2 text-xs text-gray-600 pt-2 border-t border-gray-100">
                         <div class="flex justify-between">
-                            <span>Product Price</span>
-                            <span class="text-gray-800">+ ₹487</span>
+                            <span class="underline decoration-dotted">Product Price</span>
+                            <span class="text-gray-800">+ ₹175</span>
                         </div>
                         <div class="flex justify-between text-emerald-600">
-                            <span>Total Discounts</span>
-                            <span>- ₹388</span>
+                            <span class="underline decoration-dotted">Total Discounts</span>
+                            <span>- ₹76</span>
                         </div>
                         <div class="pt-2 border-t border-gray-200 flex justify-between font-bold text-sm text-gray-900">
                             <span>Order Total</span>
@@ -560,18 +652,19 @@
 
                     <div class="bg-emerald-50 border border-emerald-200 rounded p-2 text-center text-emerald-700 text-xs font-semibold flex items-center justify-center space-x-1.5">
                         <i class="fa-solid fa-circle-check"></i>
-                        <span>Yay! Your total discount is ₹388</span>
+                        <span>Yay! Your total discount is ₹76</span>
                     </div>
                 </div>
 
             </div>
 
+            <!-- Sticky Payment Action -->
             <div class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white border-t border-gray-200 p-3 z-50 flex items-center justify-between">
                 <div>
                     <span class="text-xl font-bold text-gray-900">₹99</span>
-                    <p class="text-[11px] text-meesho-purple font-bold cursor-pointer">VIEW PRICE DETAILS</p>
+                    <p onclick="togglePriceDetails()" class="text-[11px] text-meesho-purple font-bold cursor-pointer tracking-tight">VIEW PRICE DETAILS</p>
                 </div>
-                <button onclick="triggerPaymentSuccess()" class="bg-meesho-purple hover:bg-meesho-purple-dark text-white px-7 py-2.5 rounded-md font-semibold text-xs shadow-md transition-colors">
+                <button onclick="triggerPaymentSuccess()" class="bg-meesho-purple hover:bg-meesho-purple-dark text-white px-7 py-2.5 rounded-md font-semibold text-xs shadow-md transition-colors active:scale-95">
                     Pay with QR
                 </button>
             </div>
@@ -581,20 +674,7 @@
     </div>
 
     <script>
-        // Automatic Fallback Replacement if Image File is missing
-        function handleImgError(img) {
-            const altText = img.getAttribute('alt') || 'image';
-            const wrapper = document.createElement('div');
-            wrapper.className = 'img-placeholder-box ' + img.className;
-            wrapper.style.width = img.style.width || '100%';
-            wrapper.style.height = img.style.height || '100%';
-            wrapper.innerText = altText;
-            
-            if (img.parentNode) {
-                img.parentNode.replaceChild(wrapper, img);
-            }
-        }
-
+        // Switch between flow steps
         function goToStep(stepNumber) {
             document.querySelectorAll('.page-view').forEach(view => {
                 view.classList.remove('active');
@@ -610,6 +690,24 @@
             window.scrollTo(0, 0);
         }
 
+        // Swipe Carousel Indicator Dots Logic
+        function handleCarouselScroll() {
+            const carousel = document.getElementById('product-carousel');
+            const dots = document.querySelectorAll('#carousel-dots .dot');
+            const scrollLeft = carousel.scrollLeft;
+            const itemWidth = carousel.clientWidth;
+            const activeIndex = Math.round(scrollLeft / itemWidth);
+
+            dots.forEach((dot, idx) => {
+                if (idx === activeIndex) {
+                    dot.className = 'dot w-3 h-1 bg-meesho-purple rounded-full transition-all duration-200';
+                } else {
+                    dot.className = 'dot w-1.5 h-1 bg-gray-300 rounded-full transition-all duration-200';
+                }
+            });
+        }
+
+        // Form Submit Handler
         function handleAddressSubmit(event) {
             event.preventDefault();
             const name = document.getElementById('fullName').value.trim();
@@ -622,7 +720,19 @@
             if (name && phone && street && city && pincode && state) {
                 goToStep(3);
             } else {
-                showToast('Please fill out all address fields.');
+                showToast('Please complete all delivery fields.');
+            }
+        }
+
+        function togglePriceDetails() {
+            const breakdown = document.getElementById('price-breakdown');
+            const arrow = document.getElementById('price-arrow');
+            if (breakdown.style.display === 'none') {
+                breakdown.style.display = 'block';
+                arrow.className = 'fa-solid fa-chevron-up text-xs text-gray-500';
+            } else {
+                breakdown.style.display = 'none';
+                arrow.className = 'fa-solid fa-chevron-down text-xs text-gray-500';
             }
         }
 
@@ -634,6 +744,13 @@
             setTimeout(() => {
                 toast.classList.remove('show');
             }, 2500);
+        }
+
+        function toggleHelpful(btn) {
+            if (!btn.classList.contains('text-meesho-purple')) {
+                btn.classList.add('text-meesho-purple');
+                showToast('Marked review as helpful');
+            }
         }
 
         function startTimer(duration) {
@@ -659,11 +776,11 @@
         }
 
         function triggerPaymentSuccess() {
-            showToast('Opening UPI Scanner...');
+            showToast('Opening UPI Scanner for ₹99...');
         }
 
         window.onload = function () {
-            startTimer(34);
+            startTimer(41);
         };
     </script>
 </body>
