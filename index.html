@@ -6,11 +6,11 @@
     <title>K12 Portable Bluetooth Speaker - Meesho</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
     <style>
         body {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: #f3f4f6;
             color: #333333;
             -webkit-tap-highlight-color: transparent;
@@ -52,40 +52,43 @@
             display: block;
         }
 
-        /* Image Placeholder Fallback Container */
-        .img-placeholder-box {
-            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+        /* Responsive Placeholder Container */
+        .img-frame {
+            position: relative;
+            width: 100%;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #4b5563;
-            font-weight: 600;
-            font-size: 12px;
-            border-radius: 6px;
-            user-select: none;
+            background-color: #f3f4f6;
             overflow: hidden;
-            position: relative;
+            border-radius: 6px;
         }
 
-        .img-placeholder-box img {
+        .img-frame img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
         }
 
-        /* Fallback text when image fails or hasn't loaded */
-        .fallback-text {
-            position: absolute;
-            inset: 0;
+        /* Fallback box injected dynamically when image load fails */
+        .placeholder-fallback {
+            width: 100%;
+            height: 100%;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: #e5e7eb;
-            color: #374151;
-            font-weight: 600;
+            background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);
+            color: #4b5563;
             font-size: 11px;
+            font-weight: 600;
             text-align: center;
-            padding: 2px;
+            padding: 4px;
+            border: 1px dashed #cbd5e1;
+            border-radius: 6px;
+            box-sizing: border-border;
         }
 
         #toast {
@@ -114,19 +117,16 @@
         <!-- ================================================================= -->
         <div id="step-product" class="page-view active">
             
-            <!-- Top Header -->
+            <!-- Header with meesho.png -->
             <header class="sticky top-0 bg-white z-40 border-b border-gray-100 px-4 py-3 flex items-center justify-between">
                 <div class="flex items-center space-x-3">
-                    <!-- meesho.png Logo Placeholder -->
-                    <div class="img-placeholder-box w-24 h-7 border border-gray-200">
-                        <img src="meesho.png" alt="meesho.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                        <div class="fallback-text">meesho.png</div>
+                    <div class="img-frame w-24 h-7">
+                        <img src="meesho.png" alt="meesho.png" onerror="handleImgError(this, 'meesho.png')">
                     </div>
                 </div>
                 <div class="flex items-center space-x-5 text-gray-700 text-lg">
                     <i class="fa-solid fa-magnifying-glass cursor-pointer"></i>
                     <i class="fa-regular fa-heart cursor-pointer"></i>
-                    <!-- Shopping cart icon without any count badge -->
                     <div class="cursor-pointer" onclick="showToast('Cart is empty')">
                         <i class="fa-solid fa-cart-shopping"></i>
                     </div>
@@ -140,58 +140,45 @@
                 <i class="fa-solid fa-angles-right text-indigo-400 text-xs"></i>
             </div>
 
-            <!-- Swipeable Product Gallery Carousel -->
+            <!-- Touch Swipeable Carousel (p1.png - p5.png) -->
             <div class="relative w-full bg-gray-50 border-b border-gray-100">
                 <div id="product-carousel" onscroll="handleCarouselScroll()" class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar w-full h-[360px] scroll-smooth">
-                    <!-- p1.png -->
                     <div class="snap-center shrink-0 w-full h-full p-2">
-                        <div class="img-placeholder-box w-full h-full border border-gray-200 rounded-lg">
-                            <img src="p1.png" alt="p1.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                            <div class="fallback-text text-sm">p1.png</div>
+                        <div class="img-frame">
+                            <img src="p1.png" alt="p1.png" onerror="handleImgError(this, 'p1.png')">
                         </div>
                     </div>
-                    <!-- p2.png -->
                     <div class="snap-center shrink-0 w-full h-full p-2">
-                        <div class="img-placeholder-box w-full h-full border border-gray-200 rounded-lg">
-                            <img src="p2.png" alt="p2.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                            <div class="fallback-text text-sm">p2.png</div>
+                        <div class="img-frame">
+                            <img src="p2.png" alt="p2.png" onerror="handleImgError(this, 'p2.png')">
                         </div>
                     </div>
-                    <!-- p3.png -->
                     <div class="snap-center shrink-0 w-full h-full p-2">
-                        <div class="img-placeholder-box w-full h-full border border-gray-200 rounded-lg">
-                            <img src="p3.png" alt="p3.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                            <div class="fallback-text text-sm">p3.png</div>
+                        <div class="img-frame">
+                            <img src="p3.png" alt="p3.png" onerror="handleImgError(this, 'p3.png')">
                         </div>
                     </div>
-                    <!-- p4.png -->
                     <div class="snap-center shrink-0 w-full h-full p-2">
-                        <div class="img-placeholder-box w-full h-full border border-gray-200 rounded-lg">
-                            <img src="p4.png" alt="p4.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                            <div class="fallback-text text-sm">p4.png</div>
+                        <div class="img-frame">
+                            <img src="p4.png" alt="p4.png" onerror="handleImgError(this, 'p4.png')">
                         </div>
                     </div>
-                    <!-- p5.png -->
                     <div class="snap-center shrink-0 w-full h-full p-2">
-                        <div class="img-placeholder-box w-full h-full border border-gray-200 rounded-lg">
-                            <img src="p5.png" alt="p5.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                            <div class="fallback-text text-sm">p5.png</div>
+                        <div class="img-frame">
+                            <img src="p5.png" alt="p5.png" onerror="handleImgError(this, 'p5.png')">
                         </div>
                     </div>
                 </div>
 
-                <!-- Product Code Tag -->
                 <div class="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm px-2 py-0.5 rounded text-[11px] text-gray-600 font-mono shadow-sm">
                     s-792925561
                 </div>
 
-                <!-- More Like This Pill -->
                 <button class="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm border border-gray-300 rounded-full px-3 py-1.5 text-xs font-medium text-gray-700 shadow-sm flex items-center gap-1.5">
                     <i class="fa-regular fa-clone text-xs"></i>
                     <span>More Like This</span>
                 </button>
 
-                <!-- Dynamic Swipe Dots -->
                 <div id="carousel-dots" class="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1.5">
                     <span class="dot w-3 h-1 bg-meesho-purple rounded-full transition-all duration-200"></span>
                     <span class="dot w-1.5 h-1 bg-gray-300 rounded-full transition-all duration-200"></span>
@@ -201,7 +188,7 @@
                 </div>
             </div>
 
-            <!-- Product Info Box -->
+            <!-- Product Summary Info -->
             <div class="p-4 bg-white border-b border-gray-200">
                 <div class="flex justify-between items-start">
                     <h1 class="text-gray-700 text-sm font-normal leading-snug flex-1 pr-3">
@@ -219,7 +206,6 @@
                     </div>
                 </div>
 
-                <!-- Pricing Section -->
                 <div class="mt-2 flex items-baseline space-x-2">
                     <span class="text-2xl font-bold text-gray-900">₹99</span>
                     <span class="text-xs text-gray-400 line-through">₹200</span>
@@ -246,7 +232,7 @@
                 </div>
             </div>
 
-            <!-- Features Bar -->
+            <!-- Features Banner -->
             <div class="bg-purple-50/40 p-3 grid grid-cols-2 gap-2 text-center border-b border-gray-200">
                 <div class="flex flex-col items-center justify-center space-y-1">
                     <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-meesho-purple">
@@ -274,7 +260,6 @@
             <div class="p-4 bg-white border-b border-gray-200">
                 <h3 class="text-sm font-bold text-gray-800 mb-3">Customer Ratings & Reviews</h3>
 
-                <!-- Summary Breakdown -->
                 <div class="flex items-center space-x-4 mb-4">
                     <div class="text-center pr-2">
                         <div class="text-3xl font-extrabold text-emerald-600 flex items-center justify-center gap-1">
@@ -323,33 +308,29 @@
                     </div>
                 </div>
 
-                <!-- Customer Photos Grid using r1.png - r5.png -->
+                <!-- Customer Photos Grid using r1.png to r5.png -->
                 <div class="mb-4">
                     <p class="text-xs font-semibold text-gray-700 mb-2">Customer photos and videos</p>
                     <div class="grid grid-cols-5 gap-1.5">
-                        <div class="img-placeholder-box h-16">
-                            <img src="r1.png" alt="r1.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                            <div class="fallback-text">r1.png</div>
+                        <div class="img-frame h-16">
+                            <img src="r1.png" alt="r1.png" onerror="handleImgError(this, 'r1.png')">
                         </div>
-                        <div class="img-placeholder-box h-16">
-                            <img src="r2.png" alt="r2.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                            <div class="fallback-text">r2.png</div>
+                        <div class="img-frame h-16">
+                            <img src="r2.png" alt="r2.png" onerror="handleImgError(this, 'r2.png')">
                         </div>
-                        <div class="img-placeholder-box h-16">
-                            <img src="r3.png" alt="r3.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                            <div class="fallback-text">r3.png</div>
+                        <div class="img-frame h-16">
+                            <img src="r3.png" alt="r3.png" onerror="handleImgError(this, 'r3.png')">
                         </div>
-                        <div class="img-placeholder-box h-16">
-                            <img src="r4.png" alt="r4.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                            <div class="fallback-text">r4.png</div>
+                        <div class="img-frame h-16">
+                            <img src="r4.png" alt="r4.png" onerror="handleImgError(this, 'r4.png')">
                         </div>
-                        <div class="img-placeholder-box h-16 bg-gray-800 text-white flex items-center justify-center font-bold text-xs">
+                        <div class="img-frame h-16 bg-gray-800 text-white flex items-center justify-center font-bold text-xs">
                             +65
                         </div>
                     </div>
                 </div>
 
-                <!-- Individual Reviews with r1.png to r10.png -->
+                <!-- Review Feed with r1.png to r10.png -->
                 <div class="space-y-4 pt-2 border-t border-gray-100">
                     
                     <!-- Review Item 1 -->
@@ -364,25 +345,20 @@
                         </div>
                         <p class="text-xs text-gray-700 mt-1.5">It is small but ok Chota packet bara dhamaka💥💥</p>
                         <div class="flex space-x-1.5 mt-2 overflow-x-auto no-scrollbar">
-                            <div class="img-placeholder-box w-14 h-14 shrink-0">
-                                <img src="r1.png" alt="r1.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                                <div class="fallback-text">r1.png</div>
+                            <div class="img-frame w-14 h-14 shrink-0">
+                                <img src="r1.png" alt="r1.png" onerror="handleImgError(this, 'r1.png')">
                             </div>
-                            <div class="img-placeholder-box w-14 h-14 shrink-0">
-                                <img src="r2.png" alt="r2.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                                <div class="fallback-text">r2.png</div>
+                            <div class="img-frame w-14 h-14 shrink-0">
+                                <img src="r2.png" alt="r2.png" onerror="handleImgError(this, 'r2.png')">
                             </div>
-                            <div class="img-placeholder-box w-14 h-14 shrink-0">
-                                <img src="r3.png" alt="r3.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                                <div class="fallback-text">r3.png</div>
+                            <div class="img-frame w-14 h-14 shrink-0">
+                                <img src="r3.png" alt="r3.png" onerror="handleImgError(this, 'r3.png')">
                             </div>
-                            <div class="img-placeholder-box w-14 h-14 shrink-0">
-                                <img src="r4.png" alt="r4.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                                <div class="fallback-text">r4.png</div>
+                            <div class="img-frame w-14 h-14 shrink-0">
+                                <img src="r4.png" alt="r4.png" onerror="handleImgError(this, 'r4.png')">
                             </div>
-                            <div class="img-placeholder-box w-14 h-14 shrink-0">
-                                <img src="r5.png" alt="r5.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                                <div class="fallback-text">r5.png</div>
+                            <div class="img-frame w-14 h-14 shrink-0">
+                                <img src="r5.png" alt="r5.png" onerror="handleImgError(this, 'r5.png')">
                             </div>
                         </div>
                         <button onclick="toggleHelpful(this)" class="mt-2 flex items-center text-gray-500 text-xs space-x-1 hover:text-meesho-purple">
@@ -403,17 +379,14 @@
                         </div>
                         <p class="text-xs text-gray-700 mt-1.5">Bhot mast hai bache bhot happy ho Gaye thank you meesho 🎉🥳</p>
                         <div class="flex space-x-1.5 mt-2">
-                            <div class="img-placeholder-box w-14 h-14 shrink-0">
-                                <img src="r6.png" alt="r6.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                                <div class="fallback-text">r6.png</div>
+                            <div class="img-frame w-14 h-14 shrink-0">
+                                <img src="r6.png" alt="r6.png" onerror="handleImgError(this, 'r6.png')">
                             </div>
-                            <div class="img-placeholder-box w-14 h-14 shrink-0">
-                                <img src="r7.png" alt="r7.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                                <div class="fallback-text">r7.png</div>
+                            <div class="img-frame w-14 h-14 shrink-0">
+                                <img src="r7.png" alt="r7.png" onerror="handleImgError(this, 'r7.png')">
                             </div>
-                            <div class="img-placeholder-box w-14 h-14 shrink-0">
-                                <img src="r8.png" alt="r8.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                                <div class="fallback-text">r8.png</div>
+                            <div class="img-frame w-14 h-14 shrink-0">
+                                <img src="r8.png" alt="r8.png" onerror="handleImgError(this, 'r8.png')">
                             </div>
                         </div>
                         <button onclick="toggleHelpful(this)" class="mt-2 flex items-center text-gray-500 text-xs space-x-1 hover:text-meesho-purple">
@@ -434,13 +407,11 @@
                         </div>
                         <p class="text-xs text-gray-700 mt-1.5">Bahut achha hai bas thoda sa chalu karne mein vah hua lekin achcha hai price ke hisab se product bahut achcha...</p>
                         <div class="flex space-x-1.5 mt-2">
-                            <div class="img-placeholder-box w-14 h-14 shrink-0">
-                                <img src="r9.png" alt="r9.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                                <div class="fallback-text">r9.png</div>
+                            <div class="img-frame w-14 h-14 shrink-0">
+                                <img src="r9.png" alt="r9.png" onerror="handleImgError(this, 'r9.png')">
                             </div>
-                            <div class="img-placeholder-box w-14 h-14 shrink-0">
-                                <img src="r10.png" alt="r10.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                                <div class="fallback-text">r10.png</div>
+                            <div class="img-frame w-14 h-14 shrink-0">
+                                <img src="r10.png" alt="r10.png" onerror="handleImgError(this, 'r10.png')">
                             </div>
                         </div>
                     </div>
@@ -448,7 +419,7 @@
                 </div>
             </div>
 
-            <!-- Sticky Bottom Actions -->
+            <!-- Sticky Bottom Buttons -->
             <div class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white border-t border-gray-200 p-2.5 z-50 flex items-center space-x-2">
                 <button onclick="showToast('Added to Cart!')" class="w-1/2 bg-white border-2 border-meesho-purple text-meesho-purple py-2.5 rounded-md font-semibold text-xs flex items-center justify-center space-x-1.5 active:bg-pink-50 transition-colors">
                     <i class="fa-solid fa-cart-plus text-sm"></i>
@@ -564,7 +535,7 @@
 
             <div class="p-4 space-y-4">
 
-                <!-- Pay Online Container with QR Code and App Icon Placeholders -->
+                <!-- Online Payment Container -->
                 <div class="border-2 border-meesho-purple rounded-xl p-4 bg-white relative shadow-sm">
                     <div class="flex justify-between items-start mb-3">
                         <div>
@@ -582,37 +553,29 @@
                         </div>
                     </div>
 
-                    <!-- Scanner Box with qr.png Placeholder -->
+                    <!-- QR Scanner Container with qr.png -->
                     <div class="flex flex-col items-center justify-center p-3 bg-gray-50 border border-dashed border-gray-300 rounded-lg">
                         <p class="text-xs text-gray-600 mb-2 font-semibold">Scan QR to pay directly</p>
                         
                         <div class="w-48 h-48 bg-white p-2 rounded-lg border border-gray-200 shadow-sm flex items-center justify-center">
-                            <div class="img-placeholder-box w-full h-full border border-gray-100">
-                                <img src="qr.png" alt="qr.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                                <div class="fallback-text flex-col">
-                                    <i class="fa-solid fa-qrcode text-4xl mb-1 text-gray-500"></i>
-                                    <span>qr.png</span>
-                                </div>
+                            <div class="img-frame">
+                                <img src="qr.png" alt="qr.png" onerror="handleImgError(this, 'qr.png')">
                             </div>
                         </div>
 
-                        <!-- App Icon Placeholders below QR -->
+                        <!-- Payment App Placeholders: phonepe.png, paytm.png, gpay.png, upi.png -->
                         <div class="mt-4 pt-3 border-t border-gray-200 w-full grid grid-cols-4 gap-2 px-1">
-                            <div class="img-placeholder-box h-8 border border-gray-200">
-                                <img src="phonepe.png" alt="phonepe.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                                <div class="fallback-text">phonepe.png</div>
+                            <div class="img-frame h-8">
+                                <img src="phonepe.png" alt="phonepe.png" onerror="handleImgError(this, 'phonepe.png')">
                             </div>
-                            <div class="img-placeholder-box h-8 border border-gray-200">
-                                <img src="paytm.png" alt="paytm.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                                <div class="fallback-text">paytm.png</div>
+                            <div class="img-frame h-8">
+                                <img src="paytm.png" alt="paytm.png" onerror="handleImgError(this, 'paytm.png')">
                             </div>
-                            <div class="img-placeholder-box h-8 border border-gray-200">
-                                <img src="gpay.png" alt="gpay.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                                <div class="fallback-text">gpay.png</div>
+                            <div class="img-frame h-8">
+                                <img src="gpay.png" alt="gpay.png" onerror="handleImgError(this, 'gpay.png')">
                             </div>
-                            <div class="img-placeholder-box h-8 border border-gray-200">
-                                <img src="upi.png" alt="upi.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                                <div class="fallback-text">upi.png</div>
+                            <div class="img-frame h-8">
+                                <img src="upi.png" alt="upi.png" onerror="handleImgError(this, 'upi.png')">
                             </div>
                         </div>
                     </div>
@@ -658,7 +621,7 @@
 
             </div>
 
-            <!-- Sticky Payment Action -->
+            <!-- Sticky Payment Bottom Bar -->
             <div class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white border-t border-gray-200 p-3 z-50 flex items-center justify-between">
                 <div>
                     <span class="text-xl font-bold text-gray-900">₹99</span>
@@ -674,7 +637,16 @@
     </div>
 
     <script>
-        // Switch between flow steps
+        // Universal Error Handler for Image Placeholders
+        function handleImgError(imgElement, labelText) {
+            const container = imgElement.parentElement;
+            if (container) {
+                // Replace broken img tag with a custom fallback container
+                container.innerHTML = `<div class="placeholder-fallback">${labelText}</div>`;
+            }
+        }
+
+        // Navigation between app steps
         function goToStep(stepNumber) {
             document.querySelectorAll('.page-view').forEach(view => {
                 view.classList.remove('active');
@@ -690,10 +662,12 @@
             window.scrollTo(0, 0);
         }
 
-        // Swipe Carousel Indicator Dots Logic
+        // Carousel scroll dots syncing
         function handleCarouselScroll() {
             const carousel = document.getElementById('product-carousel');
             const dots = document.querySelectorAll('#carousel-dots .dot');
+            if (!carousel || !dots.length) return;
+
             const scrollLeft = carousel.scrollLeft;
             const itemWidth = carousel.clientWidth;
             const activeIndex = Math.round(scrollLeft / itemWidth);
@@ -727,6 +701,8 @@
         function togglePriceDetails() {
             const breakdown = document.getElementById('price-breakdown');
             const arrow = document.getElementById('price-arrow');
+            if (!breakdown || !arrow) return;
+
             if (breakdown.style.display === 'none') {
                 breakdown.style.display = 'block';
                 arrow.className = 'fa-solid fa-chevron-up text-xs text-gray-500';
@@ -739,6 +715,8 @@
         function showToast(message) {
             const toast = document.getElementById('toast');
             const msg = document.getElementById('toast-message');
+            if (!toast || !msg) return;
+
             msg.textContent = message;
             toast.classList.add('show');
             setTimeout(() => {
